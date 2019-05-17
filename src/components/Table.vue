@@ -25,7 +25,7 @@
             </tr>
             </tbody>
         </table>
-        <InfoModal ref="modal" :value="modalData"/>
+        <InfoModal ref="modal"/>
     </div>
 </template>
 
@@ -39,7 +39,6 @@
         },
         data: () => ({
             coinData: [],
-            modalData: {},
         }),
         mounted () {
             this.loadData();
@@ -51,10 +50,13 @@
                     this.coinData = data.data;
                 }
             },
-            showModal({ symbol, name }) {
+            showModal(item) {
                 const modal = this.$refs.modal;
 
-                modal.title = `${name} (${symbol})`;
+                modal.title = `${item.name} (${item.symbol})`;
+                modal.id = item.id;
+                modal.data = item;
+
                 this.$bvModal.show('info-modal')
             },
         },
