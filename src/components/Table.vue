@@ -46,7 +46,7 @@
         methods: {
             async loadData() {
                 if (!this.coinData.length) {
-                    const {data} = await axios.get('https://api.coincap.io/v2/assets');
+                    const {data} = await axios.get('/assets');
                     this.coinData = data.data;
                 }
             },

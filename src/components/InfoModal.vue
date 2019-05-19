@@ -45,7 +45,7 @@
         },
         methods: {
             async loadHistory() {
-                const {data} = await axios.get(`https://api.coincap.io/v2/assets/${this.id}/history?interval=1d`);
+                const {data} = await axios.get(`/assets/${this.id}/history?interval=d1`);
                 this.historyData = data.data;
             }
         },
