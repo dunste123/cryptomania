@@ -1,7 +1,7 @@
 <template>
     <div>
         <template v-if="!coinData.length">
-            <div>Loading I guess</div>
+            <Loader class="from-top"/>
         </template>
         <table v-else class="table">
             <thead>
@@ -15,14 +15,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, i) in coinData" v-bind:key="i">
-                <th scope="row">{{ item.symbol }}</th>
-                <td>{{ item.name }}</td>
-                <td>${{ parseFloat(item.priceUsd).toFixed(5) }}</td>
-                <td>${{ parseFloat(item.marketCapUsd).toFixed(5) }}</td>
-                <td class="green">...</td>
-                <td><b-button @click="showModal(item)" variant="primary">More info</b-button></td>
-            </tr>
+            <TableRow v-for="(item, i) in coinData"
+                      v-bind:key="i"
+                      :value="item"
+                      @modal="showModal"/>
             </tbody>
         </table>
         <InfoModal ref="modal"/>
@@ -31,16 +27,20 @@
 
 <script>
     import axios from 'axios';
+    import TableRow from "./TableRow";
+    import Loader from "./Loader";
 
     export default {
         name: "Table",
         components: {
+            Loader,
+            TableRow,
             InfoModal: () => import(/* webpackChunkName: "Modal" */ './InfoModal.vue'),
         },
         data: () => ({
             coinData: [],
         }),
-        mounted () {
+        mounted() {
             this.loadData();
         },
         methods: {
@@ -64,11 +64,7 @@
 </script>
 
 <style scoped>
-    .green {
-        color: green;
-    }
-
-    .red {
-        color: red;
+    .from-top {
+        padding-top: 25%;
     }
 </style>

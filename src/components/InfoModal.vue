@@ -1,15 +1,31 @@
 <template>
-    <b-modal @show="loadHistory" id="info-modal" :title="title">
-        <div>
-            <h5>Price</h5>
-            <p>${{ data.priceUsd }}</p>
-        </div>
+    <b-modal modal-lg @show="loadHistory" id="info-modal" :title="title">
+        <b-container fluid>
+            <b-row>
+                <b-col>
+                    <h5>Price</h5>
+                    <p>${{ parseFloat(data.priceUsd).toFixed(2) }} ({{ data.changePercent24Hr }}%)</p>
+                </b-col>
+            </b-row>
 
-        <div>
-            <h5>Market Cap</h5>
-            <p>${{ data.marketCapUsd }}</p>
-        </div>
-        <p class="m y-4">{{ data }}</p>
+            <b-row>
+                <b-col>
+                    <h5>Market Cap</h5>
+                    <p>${{ parseFloat(data.marketCapUsd).toFixed(2) }}</p>
+                </b-col>
+
+                <b-col>
+                    <h5>Volume</h5>
+                    <p>{{ parseFloat(data.volumeUsd24Hr).toFixed(2) }}</p>
+                </b-col>
+
+                <b-col>
+                    <h5>Supply</h5>
+                    <p>{{ parseFloat(data.supply).toFixed(2) }}</p>
+                </b-col>
+            </b-row>
+        </b-container>
+        <pre><p class="m y-4">{{ historyData }}</p></pre>
     </b-modal>
 </template>
 
@@ -24,12 +40,13 @@
                 title: '',
                 id: '',
                 data: {},
+                historyData: {},
             };
         },
         methods: {
             async loadHistory() {
-                /*const {data} = await axios.get(`https://api.coincap.io/v2/assets/${this.id}`);
-                this.data = data.data;*/
+                const {data} = await axios.get(`https://api.coincap.io/v2/assets/${this.id}/history?interval=1d`);
+                this.historyData = data.data;
             }
         },
     }
