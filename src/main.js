@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import BootstrapVue from 'bootstrap-vue'
+import './bootstrap'
 import './axiosSettings'
-
-Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 

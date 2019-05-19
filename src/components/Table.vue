@@ -35,7 +35,7 @@
         components: {
             Loader,
             TableRow,
-            InfoModal: () => import(/* webpackChunkName: "Modal" */ './InfoModal.vue'),
+            InfoModal: () => import(/* webpackChunkName: "InfoModal" */ './InfoModal.vue'),
         },
         data: () => ({
             coinData: [],
