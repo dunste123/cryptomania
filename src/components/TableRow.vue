@@ -24,7 +24,7 @@
                 name: this.value.name,
                 priceUsd:  parseFloat(this.value.priceUsd).toFixed(5),
                 marketCapUsd:  parseFloat(this.value.marketCapUsd).toFixed(5),
-                changePercent24Hr:  parseFloat(this.value.changePercent24Hr).toFixed(3),
+                changePercent24Hr:  parseFloat(this.value.changePercent24Hr).toFixed(2),
             };
         },
         computed: {

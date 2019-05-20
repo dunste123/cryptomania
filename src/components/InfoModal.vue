@@ -1,5 +1,5 @@
 <template>
-    <b-modal modal-lg @show="loadHistory" id="info-modal" :title="title">
+    <b-modal size="lg" @show="loadHistory" id="info-modal" :title="title">
         <b-container fluid>
             <b-row>
                 <b-col>
@@ -25,7 +25,8 @@
                 </b-col>
             </b-row>
         </b-container>
-        <pre><p class="m y-4">{{ historyData }}</p></pre>
+        <LineChart :chart-data="historyData"/>
+        <div slot="modal-footer"></div>
     </b-modal>
 </template>
 
@@ -34,13 +35,16 @@
 
     export default {
         name: "InfoModal",
+        components: {
+            LineChart: () => import(/* webpackChunkName: "LineChart" */ './LineChart.vue'),
+        },
         props: {},
         data () {
             return {
                 title: '',
                 id: '',
                 data: {},
-                historyData: {},
+                historyData: [],
             };
         },
         methods: {
@@ -51,7 +55,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,8 +1,6 @@
 <template>
     <div>
-        <template v-if="!coinData.length">
-            <Loader class="from-top"/>
-        </template>
+        <Loader v-if="!coinData.length" class="from-top"/>
         <table v-else class="table">
             <thead>
             <tr>
@@ -27,14 +25,12 @@
 
 <script>
     import axios from 'axios';
-    import TableRow from "./TableRow";
-    import Loader from "./Loader";
 
     export default {
         name: "Table",
         components: {
-            Loader,
-            TableRow,
+            Loader: () => import(/* webpackChunkName: "Loader" */ './Loader.vue'),
+            TableRow: () => import(/* webpackChunkName: "TableRow" */ './TableRow.vue'),
             InfoModal: () => import(/* webpackChunkName: "InfoModal" */ './InfoModal.vue'),
         },
         data: () => ({
