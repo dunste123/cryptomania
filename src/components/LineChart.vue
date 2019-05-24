@@ -64,7 +64,6 @@
                     datasets[0].data.push(parseFloat(data.priceUsd))
               });
 
-
               return {
                   labels,
                   datasets,
