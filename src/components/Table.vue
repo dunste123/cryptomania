@@ -14,6 +14,7 @@
             </thead>
             <tbody>
             <TableRow v-for="(item, i) in coinData"
+                      :ref="item.name.toLowerCase()"
                       v-bind:key="i"
                       :value="item"
                       @modal="showModal"/>
@@ -35,16 +36,30 @@
         },
         data: () => ({
             coinData: [],
+            priceUpdates: {},
         }),
         mounted() {
             this.loadData();
+        },
+        watch: {
+            priceUpdates: 'updatePrice',
         },
         methods: {
             async loadData() {
                 if (!this.coinData.length) {
                     const {data} = await axios.get('/assets');
                     this.coinData = data.data;
+                    this.$nextTick(() => {
+                        this.initWS();
+                    });
                 }
+            },
+            initWS() {
+                const pricesWs = new WebSocket('wss://ws.coincap.io/prices?assets=ALL');
+
+                pricesWs.onmessage = (msg) => {
+                    this.priceUpdates = msg.data;
+                };
             },
             showModal(item) {
                 const modal = this.$refs.modal;
@@ -53,8 +68,22 @@
                 modal.id = item.id;
                 modal.data = item;
 
-                this.$bvModal.show('info-modal')
+                this.$bvModal.show('info-modal');
             },
+            updatePrice() {
+                const update = JSON.parse(this.priceUpdates);
+                const keys = Object.keys(update);
+
+                for (let key of keys) {
+                    const newVal = update[key];
+
+                    const ref = this.$refs[key];
+
+                    if (ref && ref.length) {
+                        ref[0].priceUsd = parseFloat(newVal).toFixed(5);
+                    }
+                }
+            }
         },
     }
 </script>

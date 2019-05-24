@@ -1,7 +1,11 @@
 <template>
-  <div id="app" class="container">
-    <Table/>
-  </div>
+  <b-container id="app">
+    <b-row>
+      <b-col>
+        <Table/>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

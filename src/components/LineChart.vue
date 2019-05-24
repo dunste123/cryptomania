@@ -16,8 +16,8 @@
         data: () => ({
             chart: null,
             options: {
-                responsive: false,
-                maintainAspectRatio: false,
+                responsive: true,
+                maintainAspectRatio: true,
                 scales: {
                     yAxes: [{
                         ticks: {
