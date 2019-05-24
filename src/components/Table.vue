@@ -47,15 +47,18 @@
         methods: {
             async loadData() {
                 if (!this.coinData.length) {
-                    const {data} = await axios.get('/assets');
+                    const {data} = await axios.get('/assets?limit=13');
                     this.coinData = data.data;
+
+                    const joined = data.data.map(x => x.name.toLowerCase()).join();
+
                     this.$nextTick(() => {
-                        this.initWS();
+                        this.initWS(joined);
                     });
                 }
             },
-            initWS() {
-                const pricesWs = new WebSocket('wss://ws.coincap.io/prices?assets=ALL');
+            initWS(assets) {
+                const pricesWs = new WebSocket(`wss://ws.coincap.io/prices?assets=${assets}`);
 
                 pricesWs.onmessage = (msg) => {
                     this.priceUpdates = msg.data;
