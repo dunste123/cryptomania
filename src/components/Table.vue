@@ -14,7 +14,7 @@
             </thead>
             <tbody>
             <TableRow v-for="(item, i) in coinData"
-                      :ref="item.name.toLowerCase()"
+                      :ref="item.name.toLowerCase().replace(' ', '-')"
                       v-bind:key="i"
                       :value="item"
                       @modal="showModal"/>
@@ -50,7 +50,7 @@
                     const {data} = await axios.get('/assets?limit=13');
                     this.coinData = data.data;
 
-                    const joined = data.data.map(x => x.name.toLowerCase()).join();
+                    const joined = data.data.map(x => x.name.toLowerCase().replace(' ', '-')).join();
 
                     this.$nextTick(() => {
                         this.initWS(joined);
