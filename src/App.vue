@@ -13,6 +13,9 @@ export default {
   name: 'app',
   components: {
     Table: () => import( /* webpackChunkName: "Table" */ './components/Table.vue')
+  },
+  mounted() {
+    document.title = 'Cryptomania';
   }
 }
 </script>

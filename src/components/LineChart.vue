@@ -6,11 +6,11 @@
     import Chart from 'chart.js';
 
     export default {
-        name: "LineChart",
+        name: 'LineChart',
         props: {
             chartData: {
                 type: Array,
-                default: () => []
+                default: () => [],
             },
         },
         data: () => ({
@@ -20,17 +20,28 @@
                 maintainAspectRatio: true,
                 scales: {
                     yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Date'
+                        },
                         ticks: {
                             beginAtZero: false
                         }
                     }],
                     xAxes: [{
                         type: 'time',
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        },
                         time: {
                             unit: 'week',
                         },
                     }],
-                }
+                },
+                elements: {point: {radius: 0}}
             }
         }),
         mounted() {
@@ -43,32 +54,34 @@
 
         },
         watch: {
-            chartData () {
+            chartData() {
                 this.chart.data = this.mapChartData();
                 this.chart.update();
-            }
+            },
         },
         methods: {
-          mapChartData() {
-              const labels = [];
-              const datasets = [
-                  {
-                      label: 'priceUsd',
-                      backgroundColor: 'rgba(92,180,255,0.39)',
-                      data: [],
-                  }
-              ];
+            mapChartData() {
+                const labels = [];
+                const datasets = [
+                    {
+                        type: 'line',
+                        label: 'Price',
+                        backgroundColor: 'rgba(92,180,255,0.39)',
+                        borderColor: '#3e95cd',
+                        data: [],
+                    }
+                ];
 
-              this.chartData.forEach((data) => {
+                this.chartData.forEach((data) => {
                     labels.push(data.date.replace('T', ' '));
-                    datasets[0].data.push(parseFloat(data.priceUsd))
-              });
+                    datasets[0].data.push(parseFloat(data.priceUsd).toFixed(5));
+                });
 
-              return {
-                  labels,
-                  datasets,
-              }
-          }
+                return {
+                    labels,
+                    datasets,
+                }
+            },
         },
     }
 </script>

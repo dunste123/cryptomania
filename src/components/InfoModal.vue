@@ -1,17 +1,17 @@
 <template>
-    <b-modal size="lg" @show="loadHistory" id="info-modal" :title="title">
+    <b-modal size="lg" @show="loadHistory" @hide="resetTitle" id="info-modal" :title="title">
         <b-container fluid>
             <b-row>
                 <b-col>
                     <h5>Price</h5>
-                    <p>${{ parseFloat(data.priceUsd).toFixed(2) }} ({{ data.changePercent24Hr }}%)</p>
+                    <p>${{ parseFloat(data.priceUsd) }} ({{ data.changePercent24Hr }}%)</p>
                 </b-col>
             </b-row>
 
             <b-row>
                 <b-col>
                     <h5>Market Cap</h5>
-                    <p>${{ parseFloat(data.marketCapUsd).toFixed(2) }}</p>
+                    <p>${{ parseFloat(data.marketCapUsd) }}</p>
                 </b-col>
 
                 <b-col>
@@ -34,7 +34,7 @@
     import axios from 'axios';
 
     export default {
-        name: "InfoModal",
+        name: 'InfoModal',
         components: {
             LineChart: () => import(/* webpackChunkName: "LineChart" */ './LineChart.vue'),
         },
@@ -51,7 +51,10 @@
             async loadHistory() {
                 const {data} = await axios.get(`/assets/${this.id}/history?interval=d1`);
                 this.historyData = data.data;
-            }
+            },
+            resetTitle() {
+                document.title = 'Cryptomania';
+            },
         },
     }
 </script>

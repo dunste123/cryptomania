@@ -28,7 +28,7 @@
     import axios from 'axios';
 
     export default {
-        name: "Table",
+        name: 'Table',
         components: {
             Loader: () => import(/* webpackChunkName: "Loader" */ './Loader.vue'),
             TableRow: () => import(/* webpackChunkName: "TableRow" */ './TableRow.vue'),
@@ -47,7 +47,7 @@
         methods: {
             async loadData() {
                 if (!this.coinData.length) {
-                    const {data} = await axios.get('/assets?limit=13');
+                    const {data} = await axios.get('/assets?limit=15');
                     this.coinData = data.data;
 
                     const joined = data.data.map(x => x.name.toLowerCase().replace(' ', '-')).join();
@@ -71,6 +71,8 @@
                 modal.id = item.id;
                 modal.data = item;
 
+                document.title = modal.title;
+
                 this.$bvModal.show('info-modal');
             },
             updatePrice() {
@@ -79,11 +81,10 @@
 
                 for (let key of keys) {
                     const newVal = update[key];
-
                     const ref = this.$refs[key];
 
                     if (ref && ref.length) {
-                        ref[0].priceUsd = parseFloat(newVal).toFixed(5);
+                        ref[0].priceUsd = parseFloat(newVal);
                     }
                 }
             }
