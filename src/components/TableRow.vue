@@ -1,6 +1,6 @@
 <template>
-    <tr :class="dark">
-        <th scope="row"><img :src="getImg(symbol)" :alt="symbol"> {{ symbol }}</th>
+    <tr :class="clsName">
+        <th scope="row"><img :src="getImg(symbol)" :alt="symbol" @error="fixSrc" ref="img"> {{ symbol }}</th>
         <td>{{ name }}</td>
         <td>${{ priceUsdParsed }}</td>
         <td>${{ marketCapUsd }}</td>
@@ -20,7 +20,7 @@
         },
         data () {
             return {
-                dark: '',
+                clsName: '',
                 symbol: this.value.symbol,
                 name: this.value.name,
                 priceUsd: parseFloat(this.value.priceUsd).toFixed(5),
@@ -61,15 +61,18 @@
             flashBg(newValue, oldValue) {
 
                 if (newValue > oldValue) {
-                    this.dark = 'bg-green';
+                    this.clsName = 'bg-green';
                 } else {
-                    this.dark = 'bg-red';
+                    this.clsName = 'bg-red';
                 }
 
                 setTimeout(() => {
-                    this.dark = '';
+                    this.clsName = '';
                 }, 500);
             },
+            fixSrc() {
+                this.$refs.img.src = 'https://coincap.io/static/logo_mark.png';
+            }
         },
     }
 </script>
