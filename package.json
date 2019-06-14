@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && copy CNAME docs && git add *",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+	"preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('Use Yarn')\""
   },
   "dependencies": {
     "core-js": "^2.6.5",
