@@ -74,7 +74,7 @@
                 this.$refs.img.src = 'https://coincap.io/static/logo_mark.png';
             }
         },
-    }
+    };
 </script>
 
 <style scoped>

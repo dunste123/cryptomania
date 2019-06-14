@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1 class="text-center">Current coin prices</h1>
         <Loader v-if="!coinData.length" class="from-top"/>
         <table v-else class="table">
             <thead>
@@ -26,13 +27,16 @@
 
 <script>
     import axios from 'axios';
+    import Loader from './Loader';
+    import TableRow from './TableRow';
+    import InfoModal from './InfoModal';
 
     export default {
-        name: 'Table',
+        name: 'CurrentPrices',
         components: {
-            Loader: () => import(/* webpackChunkName: "Loader" */ './Loader.vue'),
-            TableRow: () => import(/* webpackChunkName: "TableRow" */ './TableRow.vue'),
-            InfoModal: () => import(/* webpackChunkName: "InfoModal" */ './InfoModal.vue'),
+            Loader,
+            TableRow,
+            InfoModal,
         },
         data: () => ({
             coinData: [],
@@ -89,7 +93,7 @@
                 }
             }
         },
-    }
+    };
 </script>
 
 <style scoped>

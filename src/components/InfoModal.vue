@@ -32,11 +32,12 @@
 
 <script>
     import axios from 'axios';
+    import LineChart from './LineChart';
 
     export default {
         name: 'InfoModal',
         components: {
-            LineChart: () => import(/* webpackChunkName: "LineChart" */ './LineChart.vue'),
+            LineChart,
         },
         props: {},
         data () {
@@ -56,5 +57,5 @@
                 document.title = 'Cryptomania';
             },
         },
-    }
+    };
 </script>

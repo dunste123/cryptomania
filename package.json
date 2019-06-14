@@ -6,11 +6,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && copy CNAME docs && git add *",
     "lint": "vue-cli-service lint",
-	"preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('Use Yarn')\""
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('Use Yarn')\""
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",
@@ -21,6 +22,7 @@
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.20",
     "chart.js": "^2.8.0",
+    "crypto-news-api": "^2.2.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.12.0",
@@ -38,8 +40,15 @@
       "eslint:recommended"
     ],
     "rules": {
+      "semi": [
+        "error",
+        "always"
+      ],
       "no-console": "off",
-      "quotes": ["error", "single"]
+      "quotes": [
+        "error",
+        "single"
+      ]
     },
     "parserOptions": {
       "parser": "babel-eslint"

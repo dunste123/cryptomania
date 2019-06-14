@@ -80,8 +80,8 @@
                 return {
                     labels,
                     datasets,
-                }
+                };
             },
         },
-    }
+    };
 </script>
