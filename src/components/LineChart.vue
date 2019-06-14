@@ -23,7 +23,7 @@
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Date'
+                            labelString: 'Price'
                         },
                         ticks: {
                             beginAtZero: false
@@ -34,10 +34,10 @@
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Value'
+                            labelString: 'Date'
                         },
                         time: {
-                            unit: 'week',
+                            unit: 'month',
                         },
                     }],
                 },
