@@ -2,10 +2,12 @@
     <div v-if="coinsStored.length">
         <h3 class="text-center">Your Stored Coins:</h3>
         <p class="text-center">All values are from when you stored the coin</p>
+        <p class="text-center">These values are sorted from newest added to oldest added</p>
 
         <table class="table">
             <thead>
             <tr>
+                <th scope="col">#</th>
                 <th scope="col">Short</th>
                 <th scope="col">Coin</th>
                 <th scope="col">Price</th>
@@ -17,6 +19,7 @@
             <tr v-for="(item, i) in coinsStored"
                 :key="i"
             >
+                <th>{{ i + 1 }}</th>
                 <th scope="row">
                     <CoinIcon :symbol="item.symbol"/>
                     {{ item.symbol }}
@@ -31,13 +34,13 @@
             </tbody>
         </table>
 
-        <div v-for="(coin, i) in coinsStored" :key="i">
+        <!--<div v-for="(coin, i) in coinsStored" :key="i">
             {{ coin }}
-        </div>
+        </div>-->
     </div>
     <div v-else>
-        <p class="text-center">You don't have any coins in your CryptoFolio, you can do this via the more info modal on
-            the live coin page</p>
+        <h4 class="text-center">You don't have any coins in your CryptoFolio, you can do this via the more info modal on
+            the live coin page</h4>
     </div>
 </template>
 
@@ -57,16 +60,17 @@
             document.title = 'My CryptoFolio';
         },
         methods: {
-            remove(item) {
-                const conf = confirm(`Are you sure that you want to delete this stored ${item.name}?`);
+            remove(coin) {
+                const conf = confirm(`Are you sure that you want to delete this stored ${coin.name}?`);
 
                 if (!conf) {
                     return;
                 }
 
                 for (let i = 0; i < this.coinsStored.length; i++) {
-                    const found = this.coinsStored[i];
-                    if (item.uid === found.uid) {
+                    const item = this.coinsStored[i];
+
+                    if (coin.uid === item.uid) {
                         this.coinsStored.splice(i, 1);
                         break;
                     }

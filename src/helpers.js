@@ -14,7 +14,7 @@ export function getItem(key, def = undefined) {
 export function addCoinToStorage(item) {
     const coins = getItem('coins', []);
 
-    coins.push(item);
+    coins.unshift(item);
     setItem('coins', coins);
 }
 
