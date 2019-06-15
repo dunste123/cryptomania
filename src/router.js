@@ -5,7 +5,7 @@ import Home from './components/Home';
 Vue.use(VueRouter);
 
 export default new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     base: '/',
     linkExactActiveClass: 'active',
     // watch: (to, from) => {},
