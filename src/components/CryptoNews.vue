@@ -31,7 +31,6 @@
 
 <script>
     import CryptoNewsApi from 'crypto-news-api';
-    import Loader from './Loader';
 
     // eslint-disable-next-line no-undef
     const newsApi = new CryptoNewsApi(process.env.VUE_APP_NEWS_KEY);
@@ -39,12 +38,13 @@
     export default {
         name: 'CryptoNews',
         components: {
-            Loader
+            Loader: () => import('./Loader')
         },
         data: () => ({
             articles: [],
         }),
         mounted() {
+            document.title = 'Latest CryptoNews';
             newsApi.getTopNews('en')
                 .then((articles) => {
                     this.articles = articles;

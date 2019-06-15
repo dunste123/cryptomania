@@ -1,6 +1,6 @@
 <template>
     <tr :class="clsName">
-        <th scope="row"><img :src="getImg(symbol)" :alt="symbol" @error="fixSrc" ref="img"> {{ symbol }}</th>
+        <th scope="row"><CoinIcon :symbol="symbol"/> {{ symbol }}</th>
         <td>{{ name }}</td>
         <td>${{ priceUsdParsed }}</td>
         <td>${{ marketCapUsd }}</td>
@@ -12,6 +12,9 @@
 <script>
     export default {
         name: 'TableRow',
+        components: {
+            CoinIcon: () => import('./CoinIcon'),
+        },
         props: {
             value: {
                 required: true,
@@ -55,9 +58,6 @@
                     supply: this.value.supply,
                 });
             },
-            getImg(symbol) {
-                return `https://static.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`;
-            },
             flashBg(newValue, oldValue) {
 
                 if (newValue > oldValue) {
@@ -70,9 +70,6 @@
                     this.clsName = '';
                 }, 500);
             },
-            fixSrc() {
-                this.$refs.img.src = 'https://coincap.io/static/logo_mark.png';
-            }
         },
     };
 </script>
@@ -96,10 +93,6 @@
 
     tr {
         transition: background-color ease-in-out 50ms;
-    }
-
-    img {
-        max-width: 20px;
     }
 </style>
 

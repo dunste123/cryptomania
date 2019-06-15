@@ -1,5 +1,21 @@
 <template>
     <b-modal size="lg" @show="loadHistory" @hide="resetTitle" id="info-modal" :title="title">
+        <b-alert
+                :show="dismissCountDown"
+                dismissible
+                variant="success"
+                @dismissed="dismissCountDown=0"
+                @dismiss-count-down="countDownChanged"
+        >
+            <p>{{ title }} added to your CryptoFolio</p>
+            <b-progress
+                    variant="success"
+                    :max="dismissSecs"
+                    :value="dismissCountDown"
+                    height="4px"
+            ></b-progress>
+        </b-alert>
+
         <b-container fluid>
             <b-row>
                 <b-col>
@@ -26,18 +42,20 @@
             </b-row>
         </b-container>
         <LineChart :chart-data="historyData"/>
-        <div slot="modal-footer"></div>
+        <div slot="modal-footer">
+            <b-button squared variant="outline-primary" @click="addToCryptoFolio">Add to CryptoFolio</b-button>
+        </div>
     </b-modal>
 </template>
 
 <script>
     import axios from 'axios';
-    import LineChart from './LineChart';
+    import { addCoinToStorage } from '../helpers';
 
     export default {
         name: 'InfoModal',
         components: {
-            LineChart,
+            LineChart: () => import('./LineChart'),
         },
         props: {},
         data () {
@@ -46,6 +64,8 @@
                 id: '',
                 data: {},
                 historyData: [],
+                dismissSecs: 5,
+                dismissCountDown: 0,
             };
         },
         methods: {
@@ -54,7 +74,25 @@
                 this.historyData = data.data;
             },
             resetTitle() {
-                document.title = 'Cryptomania';
+                this.dismissCountDown = 0;
+                document.title = 'Live Coin Prices';
+            },
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown;
+            },
+            uuidv4() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            },
+            addToCryptoFolio() {
+                const toStore = {
+                    ...this.data,
+                    uid: this.uuidv4(),
+                };
+                addCoinToStorage(toStore);
+                this.dismissCountDown = this.dismissSecs;
             },
         },
     };

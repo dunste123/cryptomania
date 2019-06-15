@@ -8,7 +8,7 @@
                     <b-nav-item :to="{name: 'home'}">Home</b-nav-item>
                     <b-nav-item :to="{name: 'current'}">Live coin prices</b-nav-item>
                     <b-nav-item :to="{name: 'news'}">News</b-nav-item>
-                    <b-nav-item disabled>Portfolio</b-nav-item>
+                    <b-nav-item :to="{name: 'portfolio'}">My CryptoFolio</b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -18,13 +18,6 @@
 <script>
     export default {
         name: 'Navbar',
-        methods: {
-            shouldBeActive(path) {
-                const current = this.$route.path;
-
-                return current === path;
-            }
-        },
     };
 </script>
 

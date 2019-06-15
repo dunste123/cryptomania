@@ -27,23 +27,25 @@
 
 <script>
     import axios from 'axios';
-    import Loader from './Loader';
-    import TableRow from './TableRow';
-    import InfoModal from './InfoModal';
 
     export default {
         name: 'CurrentPrices',
         components: {
-            Loader,
-            TableRow,
-            InfoModal,
+            Loader: () => import('./Loader'),
+            TableRow: () => import('./TableRow'),
+            InfoModal: () => import('./InfoModal'),
         },
         data: () => ({
+            pricesWs: null,
             coinData: [],
             priceUpdates: {},
         }),
         mounted() {
             this.loadData();
+            document.title = 'Live Coin Prices';
+        },
+        beforeDestroy() {
+            this.pricesWs.close();
         },
         watch: {
             priceUpdates: 'updatePrice',
@@ -62,9 +64,9 @@
                 }
             },
             initWS(assets) {
-                const pricesWs = new WebSocket(`wss://ws.coincap.io/prices?assets=${assets}`);
+                this.pricesWs = new WebSocket(`wss://ws.coincap.io/prices?assets=${assets}`);
 
-                pricesWs.onmessage = (msg) => {
+                this.pricesWs.onmessage = (msg) => {
                     this.priceUpdates = msg.data;
                 };
             },

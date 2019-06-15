@@ -25,5 +25,10 @@ export default new VueRouter({
             name: 'news',
             component: () => import('./components/CryptoNews')
         },
+        {
+            path: '/cryptofolio',
+            name: 'portfolio',
+            component: () => import('./components/Portfolio')
+        },
     ],
 });
