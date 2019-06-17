@@ -10,8 +10,9 @@
                 <th scope="col">#</th>
                 <th scope="col">Short</th>
                 <th scope="col">Coin</th>
-                <th scope="col">Price</th>
+                <th scope="col">Stored Price</th>
                 <th scope="col">Market Cap</th>
+                <th scope="col">Current Price</th>
                 <th scope="col">Remove Coin</th>
             </tr>
             </thead>
@@ -27,6 +28,7 @@
                 <td>{{ item.name }}</td>
                 <td>${{ parseFloat(item.priceUsd).toFixed(5) }}</td>
                 <td>${{ item.marketCapUsd }}</td>
+                <td :ref="item.id">${{ parseFloat(item.priceUsd).toFixed(5) }}</td>
                 <td>
                     <b-button variant="outline-danger" @click="remove(item)">Remove</b-button>
                 </td>
@@ -53,11 +55,26 @@
             CoinIcon: () => import('./CoinIcon'),
         },
         data: () => ({
-            coinsStored: []
+            coinsStored: [],
+            pricesWs: null,
+            priceUpdates: {},
         }),
         mounted() {
             this.coinsStored = getItem('coins', []);
+
+            const assets = [...new Set(this.coinsStored.map(x => x.id))].join();
+
+            this.$nextTick(() => {
+                this.initWS(assets);
+            });
+
             document.title = 'My CryptoFolio';
+        },
+        beforeDestroy() {
+            this.pricesWs.close();
+        },
+        watch: {
+            priceUpdates: 'updatePrice',
         },
         methods: {
             remove(coin) {
@@ -77,6 +94,29 @@
                 }
 
                 setItem('coins', this.coinsStored);
+            },
+            initWS(assets) {
+                this.pricesWs = new WebSocket(`wss://ws.coincap.io/prices?assets=${assets}`);
+
+                this.pricesWs.onmessage = (msg) => {
+                    this.priceUpdates = JSON.parse(msg.data);
+                };
+            },
+
+            updatePrice() {
+                const update = this.priceUpdates;
+                const keys = Object.keys(update);
+
+                for (let key of keys) {
+                    const newVal = update[key];
+                    const refs = this.$refs[key];
+
+                    if (refs && refs.length) {
+                        for (let ref of refs) {
+                            ref.innerHTML = `$${parseFloat(newVal).toFixed(5)}`;
+                        }
+                    }
+                }
             },
         },
     };
